@@ -1,5 +1,7 @@
-# Executable
-a
+# Excludes Executable
+*
+!*.*
+!*/
 
 *.cmi
 *.cmo
