@@ -33,10 +33,7 @@ try
       let oc = open_out "result.txt" in
         let split = Str.split(Str.regexp " +") in
           let exprs = split in_line in
-            (* let toks = List.iter split_on_chars (expr ops); *)
             Printf.fprintf oc "%s" (String.concat "\n" exprs);
             close_out oc;
   done
 with End_of_file -> close_in in_channel;;
-
-(* ["^";"*";"/";"+";"-"] *)
