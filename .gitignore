@@ -1,4 +1,4 @@
-# Excludes Executable
+# Excludes Executable (file w/o extension)
 *
 !*.*
 !*/

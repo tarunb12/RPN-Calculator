@@ -5,3 +5,6 @@ $ ocamlc str.cma rpn.ml -o a
 $ ./a
 ```
 ## Testing ##
+```console
+$ 
+```
