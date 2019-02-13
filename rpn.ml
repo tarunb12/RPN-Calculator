@@ -53,8 +53,8 @@ let read_expr expression =
 let classify_float result =
   match Float.classify_float result with
   | FP_infinite -> failwith "RPN Expression produces an infinite result."
-  | FP_nan -> failwith "Invalid RPN Expression."
-  | _ -> Printf.printf "%f\n" result;;
+  | FP_nan -> failwith "Invalid RPN Expression (Result is Not a Number)."
+  | _ -> Printf.printf "%.12f\n" result;;
 
 let input = read_line () in
   let result = read_expr input in

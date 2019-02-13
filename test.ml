@@ -3,6 +3,7 @@ open OUnit2
 let result_passes result =
   match result with
   | "failure" -> false
+  | "infinite" -> false
   | _ -> true;;
 
 let rec tests index test_list ic_test ic_result =
@@ -12,11 +13,13 @@ let rec tests index test_list ic_test ic_result =
         let test_name = "test" ^ (string_of_int index) in
           let add_to_test_list t_list = List.append test_list t_list in
             let test_assertion = fun test_ctxt ->
-              if result_passes result then
-                assert_equal (Rpn.read_expr expr) (float_of_string result)
-              else assert_equal (Float.classify_float (Rpn.read_expr expr)) FP_nan in
-                let new_test = test_name >:: test_assertion in
-                  tests (index + 1) (add_to_test_list [new_test]) ic_test ic_result;
+              if result_passes result then assert_equal (Rpn.read_expr expr) (float_of_string result)
+              else
+                if (String.equal result "failure") then assert_equal (Float.classify_float (Rpn.read_expr expr)) FP_nan
+                else 
+                  if (String.equal result "infinite") then assert_equal (Float.classify_float (Rpn.read_expr expr)) FP_infinite in
+                    let new_test = test_name >:: test_assertion in
+                      tests (index + 1) (add_to_test_list [new_test]) ic_test ic_result;
   with End_of_file -> test_list;;
 
 let ic_test = open_in "test.txt" in
