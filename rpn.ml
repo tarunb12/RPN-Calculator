@@ -16,7 +16,7 @@ let pop stack =
 let push stack elem = List.append stack [elem];;
 
 let eval_op op num_1 num_2 =
-  match (op : string) with
+  match op with
   | "^" -> num_1 ** num_2
   | "*" -> num_1 *. num_2
   | "/" -> num_1 /. num_2
@@ -50,8 +50,14 @@ let read_expr expression =
     let expr = spaceSplit (String.trim expression) in
       eval_expr expr [];;
 
-let result = read_expr (read_line ()) in
-match Float.classify_float result with
-| FP_infinite -> Printf.printf "RPN Expression produces an infinite result.\n"
-| FP_nan -> Printf.printf "Invalid RPN Expression\n"
-| valid_float -> Printf.printf "%f\n" result;;
+let classify_float result =
+  match Float.classify_float result with
+  | FP_infinite -> Printf.printf "RPN Expression produces an infinite result.\n"
+  | FP_nan -> Printf.printf "Invalid RPN Expression\n"
+  | _ -> Printf.printf "%f\n" result;;
+
+let input = read_line () in
+  let result = read_expr input in
+    match input with
+    | "" -> Printf.printf ""
+    | _ -> classify_float result;;

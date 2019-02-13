@@ -1,13 +1,25 @@
-open OUnit
+open OUnit2
 
-let test_fixture = "rpn" >:::
+
+let test_fixture = "Rpn" >:::
 [
-  "add" >:: ( fun () ->
-    assert_equal 4 (rpn.read_expr "2 2 +");
+  "test.txt" >:: (fun test_ctxt ->
+  let ic_t = open_in "test.txt" in
+    let ic_r = open_in "result.txt" in
+      try
+        while true do
+          let expr = input_line ic_t in
+            let result = input_line ic_r in
+            assert_equal (Rpn.read_expr expr) (float_of_string result)
+        done;
+    with End_of_file ->
+      close_in ic_t;
+      close_in ic_r;
   );
 ]
-let _ = run_test_tt test_fixture
+let () = run_test_tt_main test_fixture;;
+
 (* 
-ocamlfind ocamlc -o b -package ounit -linkpkg -g rpn.ml test.ml
-15 7 1 1 + − ÷ 3 × 2 1 1 + + − = 
+ocamlfind ocamlc str.cma -o b -package ounit -linkpkg -g rpn.ml test.ml
+ITERATE THROUGH TESTS WITH TEST.TXT AND RESULT.TXT
 *)

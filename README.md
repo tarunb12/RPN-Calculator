@@ -1,11 +1,11 @@
 # Reverse Polish Notation Calculator #
 ## Compiling the rpn.ml Calculator ##
 ```console
-$ ocamlc str.cma rpn.ml -o a
-$ ./a
+$ ocamlc str.cma rpn.ml -o rpn
+$ ./rpn
 ```
 ## Testing ##
 ```console
-$ ocamlfind ocamlc -package oUnit -linkpkg -o b test.ml
-$ ./b
+$ ocamlfind ocamlc str.cma -o test -package oUnit -linkpkg -g rpn.ml test.ml
+$ ./test
 ```
