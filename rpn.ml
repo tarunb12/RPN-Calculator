@@ -9,9 +9,9 @@ let remove l =
 
 let pop stack = 
   let rev_stack = List.rev stack in
-  match rev_stack with
-  | [] -> []
-  | hd :: tl -> List.rev tl;;
+    match rev_stack with
+    | [] -> []
+    | hd :: tl -> List.rev tl;;
 
 let push stack elem = List.append stack [elem];;
 
@@ -52,12 +52,13 @@ let read_expr expression =
 
 let classify_float result =
   match Float.classify_float result with
-  | FP_infinite -> Printf.printf "RPN Expression produces an infinite result.\n"
-  | FP_nan -> Printf.printf "Invalid RPN Expression\n"
+  | FP_infinite -> failwith "RPN Expression produces an infinite result."
+  | FP_nan -> failwith "Invalid RPN Expression."
   | _ -> Printf.printf "%f\n" result;;
 
 let input = read_line () in
   let result = read_expr input in
     match (String.trim input) with
-    | "" -> Printf.printf ""
+    | "" -> ()
+    | "test" -> ()
     | _ -> classify_float result;;
