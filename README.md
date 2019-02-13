@@ -6,5 +6,6 @@ $ ./a
 ```
 ## Testing ##
 ```console
-$ 
+$ ocamlfind ocamlc -package oUnit -linkpkg -o b test.ml
+$ ./b
 ```
