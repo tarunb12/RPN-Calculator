@@ -1,6 +1,5 @@
 # Reverse Polish Notation Calculator #
 This RPN calculator runs by entering tokens, i.e. operators or numbers, seperated by spaces, entered through stdin.\
-No need to worry about extra whitespace anywhere, because it is stripped in the program.
 ## Compiling the rpn.ml Calculator ##
 ```console
 $ ocamlc str.cma rpn.ml -o rpn
