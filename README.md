@@ -18,8 +18,5 @@ $ ./test
 Tests will be read in from test.txt and results will be compared with result.txt.
 When testing, the program will prompt for input. To prevent any expression from being evaluated/producing errors, hit enter or type "test" and enter to skip straight to testing results.\
 Note that invalid expressions produce a nan result by the program, and any invalid result in test.txt matches to "failure" in the result.txt file, as well as +/-infinite matching to "infinite".\
-When testing numbers with an infinite decimal representation as the result, the tests will fail due to there being no exact representation which you can feed to the program for it to equal the result, for example you will not be able to test:
-```
-1 3 /
-```
+When testing numbers with an infinite decimal representation as the result, the tests will fail due to there being no exact representation which you can feed to the program for it to equal the result, for example you will not be able to test "1 3 /"
 since floating point division eventually becomes unpredictable and inaccurate after a certain number of digits (This is not apparent in the printed result of the expression).
