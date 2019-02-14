@@ -9,6 +9,7 @@ failure
 -2.0
 infinite
 failure
+0.0625
 35.0
 failure
 2417851639229258349412352.0
@@ -21,3 +22,9 @@ failure
 failure
 3.0
 1.0
+infinite
+7776.0
+4.0
+90.0
+failure
+failure
