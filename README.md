@@ -32,4 +32,4 @@ All invalid inputs will correspond to some error in the program, and these diffe
 | Too Many Operators    | Not enough arguments for operator "&lt;operator&gt;" | `1 2 + +`  |
 | Too Many Numbers      | Too many numerical arguments                         | `2 3`      |
 
-where "&lt;token&gt;" is the first unrecognized token in the list of space-seperated tokens, and  "&lt;operator&gt;" is the first token encountering the problem of not having two arguments.
+where &lt;token&gt; is the first unrecognized token in the list of space-seperated tokens, and  &lt;operator&gt; is the first token encountering the problem of not having two arguments.
