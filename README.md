@@ -21,7 +21,7 @@ When testing, the program will prompt for input. To prevent any expression from 
 
 All invalid inputs will correspond to some error in the program, and these different types of failures are tested through test.ml. Refer to the following table to see which kind of inputs throw certain types of errors.
  Input Type            | Error Message                          | Example    
-:----------------------|:--------------------------------------:|:-----------
+-----------------------|:--------------------------------------:|------------
  Division by Zero      | Cannot divide by zero                  | `1 0 /`    
  Complex Number        | Result is a complex number             | `-1 0.5 ^` 
  (±) Infinite Result   | Result is too large                    | `2 1024 ^` 
