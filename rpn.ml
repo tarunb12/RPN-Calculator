@@ -1,64 +1,94 @@
-let is_op s = 
-  let ops = ["^";"*";"/";"+";"-"] in
-    List.mem s ops;;
+let generic_error = "Invalid RPN expression."
 
-let remove l =
-  match l with
-  | [] -> []
-  | hd :: tl -> tl;;
+type token = 
+  | Number      of float
+  | Operator    of string
+  | TokenError  of string ;;
 
-let pop stack = 
-  let rev_stack = List.rev stack in
-    match rev_stack with
-    | [] -> []
-    | hd :: tl -> List.rev tl;;
+type state =
+  | TokenStack of float list
+  | StateError of string ;;
 
-let push stack elem = List.append stack [elem];;
+let evaluate_operation (num_1 : float) (num_2 : float) (operator : string) : token =
+  let token =
+    match operator with
+    | "^" -> (
+      let result = num_1 ** num_2 in
+        match Float.classify_float result with
+        | FP_nan -> TokenError "Result is a complex number"
+        | _ -> Number result)
+    | "*" -> Number (num_1 *. num_2)
+    | "/" -> (
+      let result = num_1 /. num_2 in
+        match num_2 = 0.0 with
+        | true -> TokenError "Cannot divide by zero"
+        | false -> Number result)
+    | "+" -> Number (num_1 +. num_2)
+    | "-" -> Number (num_1 -. num_2)
+    | _ -> TokenError "Invalid Operation" in
+  match token with
+  | Number number -> (
+    match Float.classify_float number with
+    | FP_nan -> TokenError generic_error
+    | FP_infinite -> TokenError "Result is too large"
+    | _ -> Number number)
+  | TokenError error -> TokenError error
+  | _ -> TokenError generic_error ;;
+  
+let next_state (state : state) (token : token) : state = 
+  match state with
+  | StateError error -> state
+  | TokenStack stack ->
+    match token with
+    | TokenError error -> StateError error
+    | Number number -> TokenStack (number :: stack)
+    | Operator operation ->
+      match stack with
+      | num_2 :: num_1 :: tl -> (
+        let result = evaluate_operation num_1 num_2 operation in
+          match result with
+          | Number number -> TokenStack (number :: tl)
+          | TokenError error -> StateError error
+          | _ -> StateError generic_error)
+      | _ -> StateError (("Not enough arguments for operator \"" ^ operation) ^ "\"") ;;
 
-let eval_op op num_1 num_2 =
-  match op with
-  | "^" -> num_1 ** num_2
-  | "*" -> num_1 *. num_2
-  | "/" -> num_1 /. num_2
-  | "+" -> num_1 +. num_2
-  | "-" -> num_1 -. num_2
-  | _ -> Float.nan;;
+let tokenize (token : string) : token = 
+  match token with
+  | "^" | "*" | "/" | "+" | "-" -> Operator token
+  | _ -> let is_float_valid = float_of_string_opt token in
+    match is_float_valid with
+    | Some number  -> Number number
+    | None -> TokenError (("Unable to recognize token \"" ^ token) ^ "\"") ;;
 
-let rec eval_expr expr float_stack =
-  if List.length expr > 0 then
-    let token = List.hd expr in
-      let is_float t = try ignore (float_of_string t); true with _ -> false in
-        let new_expr = remove expr in
-          if is_float token then
-            let num = float_of_string token in
-              (eval_expr (new_expr) (push float_stack num))
-          else
-            if is_op token then
-              if List.length float_stack >= 2 then
-                let num_2 = List.hd (List.rev float_stack) in
-                  let num_1 = List.hd (List.rev (pop float_stack)) in
-                    let pop_then_push stack = push (pop (pop stack)) in
-                      eval_expr new_expr (pop_then_push float_stack (eval_op token num_1 num_2))
-              else Float.nan
-            else Float.nan
-  else
-    if List.length float_stack == 1 then (List.hd float_stack)
-    else Float.nan;;
+let process_input (input : string) : state = input
+  |> String.trim
+  |> Str.split (Str.regexp " +")
+  |> List.map tokenize
+  |> List.fold_left next_state (TokenStack []) ;;
 
-let read_expr expression =
-  let spaceSplit = Str.(split(regexp " +")) in
-    let expr = spaceSplit (String.trim expression) in
-      eval_expr expr [];;
+let evaluate_final_state (input : string) : token = 
+  let state = process_input input in
+    match state with
+    | StateError error -> TokenError error
+    | TokenStack stack -> 
+      match stack with
+      | hd :: [] -> Number hd
+      | _ -> TokenError "Too many numerical arguments in the expression" ;;
 
-let classify_float result =
-  match Float.classify_float result with
-  | FP_infinite -> failwith "RPN Expression produces an infinite result."
-  | FP_nan -> failwith "Invalid RPN Expression (Result is Not a Number)."
-  | _ -> Printf.printf "%.12f\n" result;;
+let prompt_input (input : string) : unit =
+  match input with
+  | "" -> ()
+  | token -> let result = evaluate_final_state input in
+    match result with
+    | TokenError error -> Printf.printf "Error: %s\n" error 
+    | Number number -> Printf.printf "%.15f\n" number
+    | _ -> () ;;
 
-let input = read_line () in
-  let result = read_expr input in
-    match (String.trim input) with
-    | "" -> ()
-    | "test" -> ()
-    | _ -> classify_float result;;
+let rec start () = 
+  let input = read_line () in
+    match input with
+    | "test" | "quit" | "exit" -> ()
+    | _ -> prompt_input input;
+  start () ;;
+
+start () ;;
