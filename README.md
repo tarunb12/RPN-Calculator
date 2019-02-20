@@ -20,10 +20,13 @@ Tests will be read in from test.txt and results will be compared with result.txt
 When testing, the program will prompt for input. To prevent any expression from being evaluated/producing errors, hit enter or type one of the following: "test", "quit", or "exit", and then enter to skip straight to testing results.
 
 All invalid inputs will correspond to some error in the program, and these different types of failures are tested through test.ml. Refer to the following table to see which kind of inputs throw certain types of errors.
-| Input Type          | Error Message              | Example    |
-|:--------------------|:--------------------------:|:-----------|
-| Division by Zero    | Cannot divide by zero      | `1 0 /`    |
-| Complex Number      | Result is a complex number | `-1 0.5 ^` |
-| (±) Infinite Result | Result is too large        | `2 1024 ^` |
+ Input Type            | Error Message                          | Example    
+:----------------------|:--------------------------------------:|:-----------
+ Division by Zero      | Cannot divide by zero                  | `1 0 /`    
+ Complex Number        | Result is a complex number             | `-1 0.5 ^` 
+ (±) Infinite Result   | Result is too large                    | `2 1024 ^` 
+ Too Many Operators    | Not enough arguments for operator <op> | `1 2 + +`  
+ Too Many Numbers      | Too many numerical arguments           | ``
+ Any Other Invalid RPN | Invalid RPN Expression                 |
 
 When testing numbers with an infinite decimal representation as the result, the tests will fail due to there being no exact representation which you can feed to the program for it to equal the result, for example you will not be able to test `1 3 /` through test.ml, though it will still run in the rpn calculator, since floating point division eventually becomes unpredictable and inaccurate after a certain number of digits (This is not apparent in the printed result of the expression).

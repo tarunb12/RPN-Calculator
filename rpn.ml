@@ -73,7 +73,7 @@ let evaluate_final_state (input : string) : token =
     | TokenStack stack -> 
       match stack with
       | hd :: [] -> Number hd
-      | _ -> TokenError "Too many numerical arguments in the expression" ;;
+      | _ -> TokenError "Too many numerical arguments" ;;
 
 let prompt_input (input : string) : unit =
   match input with
