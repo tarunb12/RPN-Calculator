@@ -28,3 +28,4 @@ Cannot divide by zero
 90.0
 Cannot divide by zero
 Not enough arguments for operator "*"
+Error: Unable to recognize token "--"
