@@ -23,13 +23,13 @@ When testing numbers with an infinite decimal representation as the result, the 
 
 All invalid inputs will correspond to some error in the program, and these different types of failures are tested through test.ml. Refer to the following table to see which kind of inputs throw certain types of errors:
 
-| Input Type            | Error Message                                        | Example    |
-|:----------------------|:----------------------------------------------------:|:----------:|
-| Division by Zero      | Cannot divide by zero                                | `1 0 /`    |
-| Complex Number        | Result is a complex number                           | `-1 0.5 ^` |
-| (±) Infinite Result   | Result is too large                                  | `2 1024 ^` |
-| Invalid Token         | Unable to recognize token "&lt;token&gt;"            | `2 1 =`    |
-| Too Many Operators    | Not enough arguments for operator "&lt;operator&gt;" | `1 2 + +`  |
-| Too Many Numbers      | Too many numerical arguments                         | `2 3`      |
+| Input Type            | Error Message                                                     | Example    |
+|:----------------------|:-----------------------------------------------------------------:|:----------:|
+| Division by Zero      | Cannot divide by zero                                             | `1 0 /`    |
+| Complex Number        | Result is a complex number                                        | `-1 0.5 ^` |
+| (±) Infinite Result   | Result is too large                                               | `2 1024 ^` |
+| Invalid Token         | Unable to recognize token "&nbsp;&lt;token&gt;&nbsp;"             | `2 1 =`    |
+| Too Many Operators    | Not enough arguments for operator "&nbsp;&lt;operator&gt;&nbsp;"  | `1 2 + +`  |
+| Too Many Numbers      | Too many numerical arguments                                      | `2 3`      |
 
 where &lt;token&gt; is the first unrecognized token in the list of space-seperated tokens, and  &lt;operator&gt; is the first operator encountering the problem of not having two arguments.
